@@ -1,24 +1,19 @@
-import { memo, useState } from "react"
+import React, { memo, PropsWithChildren, useState } from "react"
 
 type ToggleProps = { isOpen: boolean; toggle: () => void }
 
 function ToggleComponent({
-  render
+  children
 }: {
-  render: (props: ToggleProps) => JSX.Element
+  children: (props: ToggleProps) => JSX.Element
 }) {
   const [isToggle, setIsToggle] = useState(true)
   const onToggle = () => {
     setIsToggle((isToggle) => !isToggle)
   }
-  console.warn("App is renderer")
-  return render({
-    isOpen: isToggle,
-    toggle: onToggle
-  })
-}
 
-const WrapperToggle = memo(ToggleComponent)
+  return children({ isOpen: isToggle, toggle: onToggle })
+}
 
 function App() {
   const [counter, setCounter] = useState(0)
@@ -34,21 +29,13 @@ function App() {
       <button onClick={() => setCounter((latestValue) => latestValue + 1)}>
         {counter}
       </button>
-      <WrapperToggle
-        render={({ isOpen, toggle }) => {
-          return (
-            <>
-              <h2
-                style={{
-                  color: "red"
-                }}>
-                {JSON.stringify(isOpen)}
-              </h2>
-              <button onClick={() => toggle()}>ON TOGGLE</button>
-            </>
-          )
-        }}
-      />
+      <ToggleComponent>
+        {(params) => (
+          <div>
+            <code>{JSON.stringify(params)}</code>
+          </div>
+        )}
+      </ToggleComponent>
     </div>
   )
 }
