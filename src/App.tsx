@@ -11,9 +11,11 @@ function ToggleComponent({
   const onToggle = () => {
     setIsToggle((isToggle) => !isToggle)
   }
-
+  console.log("🐳 :")
   return children({ isOpen: isToggle, toggle: onToggle })
 }
+
+const Wrapper = memo(ToggleComponent)
 
 function App() {
   const [counter, setCounter] = useState(0)
@@ -24,18 +26,26 @@ function App() {
       style={{
         width: "100%",
         minHeight: "100vh",
-        backgroundColor: "#282c34"
+        backgroundColor: "#282c34",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        flexDirection: "column"
       }}>
       <button onClick={() => setCounter((latestValue) => latestValue + 1)}>
-        {counter}
+        Counter : {counter}
       </button>
-      <ToggleComponent>
-        {(params) => (
-          <div>
-            <code>{JSON.stringify(params)}</code>
+      <Wrapper>
+        {({ isOpen, toggle }) => (
+          <div
+            style={{
+              backgroundColor: "#fefefe"
+            }}>
+            <kbd>{JSON.stringify(isOpen)}</kbd>
+            <input type="button" value="On Toggle" onClick={() => toggle()} />
           </div>
         )}
-      </ToggleComponent>
+      </Wrapper>
     </div>
   )
 }
