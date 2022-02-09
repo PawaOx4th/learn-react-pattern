@@ -15,8 +15,6 @@ function ToggleComponent({
   return children({ isOpen: isToggle, toggle: onToggle })
 }
 
-const Wrapper = memo(ToggleComponent)
-
 function App() {
   const [counter, setCounter] = useState(0)
 
@@ -35,7 +33,7 @@ function App() {
       <button onClick={() => setCounter((latestValue) => latestValue + 1)}>
         Counter : {counter}
       </button>
-      <Wrapper>
+      <ToggleComponent>
         {({ isOpen, toggle }) => (
           <div
             style={{
@@ -45,7 +43,7 @@ function App() {
             <input type="button" value="On Toggle" onClick={() => toggle()} />
           </div>
         )}
-      </Wrapper>
+      </ToggleComponent>
     </div>
   )
 }
