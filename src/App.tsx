@@ -1,4 +1,5 @@
 import { memo, useState } from "react"
+import { Statue, withLoading } from "./HoC/loading"
 
 type ToggleProps = {
   isToggle: boolean
@@ -36,11 +37,13 @@ const ButtonToggle = ({ isToggle, onToggle }: ToggleProps) => {
   )
 }
 
-const WrapperToggle = memo(withToggle(ButtonToggle))
-// const WrapperToggle = withToggle(ButtonToggle)
+const WrapperToggle = withToggle(ButtonToggle)
+
+const WrapperLoading = withLoading(Statue)
 
 function App() {
   const [count, setCount] = useState(0)
+
   return (
     <div
       className="App"
@@ -53,6 +56,7 @@ function App() {
       <button onClick={() => setCount((latestValue) => latestValue + 1)}>
         {count}
       </button>
+      <WrapperLoading loading={Boolean(count % 2 === 0)} />
     </div>
   )
 }
